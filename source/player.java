@@ -1,0 +1,1 @@
+/* ino mizarim vase bazikon*/
