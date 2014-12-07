@@ -1,4 +1,6 @@
 import java.util.*;
 public class mozesher {
-public static void main(String args[]){}
+public static void main(String args[]){
+  int ted;
+}
 }
