@@ -1,4 +1,0 @@
-/* ino mizarim vase player 
- *
- *
-*/
