@@ -2,3 +2,7 @@
 /*bale ino bezari khoobe */
 
 /////////////////
+
+public class Player {
+	
+}
