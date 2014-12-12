@@ -1,5 +1,9 @@
 package BoardObjects;
 
-public class Mine extends BaseGameObject{
+import game.Player;
 
+public class Mine extends BaseGameObject {
+	public void explode(Player player) {
+		
+	}
 }
