@@ -8,7 +8,12 @@ public class Ship extends BaseGameObject {
 	private int length;
 	private char polarity;
 	public boolean[] parts;
-	
+	/**
+	 * we want to find which element of this ship is in coordinate (x,y)
+	 * @param x coordinates
+	 * @param y coordinates
+	 * @return -1 if this ship has no elemnt in x,y and returns an index if there's and elemnt of (this) ship in that coordiantes
+	 */
 	private int getIndexOfPart(int x, int y) {
 		if(polarity == 'H') {
 			for(int i=0;i<this.length;i++) 
@@ -20,7 +25,7 @@ public class Ship extends BaseGameObject {
 				if(this.y + i == y && this.x == x)
 					return i;
 		}
-		return -1;//nabayd be inja berese
+		return -1;//nabayd be inja berese. age resid exception mikhore mifahmim
 	}
 	
 	public Ship(char polarity, int x, int y, int length, Board board) {
@@ -51,11 +56,23 @@ public class Ship extends BaseGameObject {
 		return true;
 	}
 	
+	/**
+	 * This method is used in radar
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isPartNonDamaged(int x, int y) {
 		int index = getIndexOfPart(x, y);
 		return parts[index];
 	}
 	
+	/**
+	 * 
+	 * @param x coordinates
+	 * @param y coordinates
+	 * @return true if there's a non damaged part of this ship in that part. Neither it returns false
+	 */
 	public boolean damagePart(int x, int y) {
 		int index = getIndexOfPart(x, y);
 		if(this.parts[index] == false)

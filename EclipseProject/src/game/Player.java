@@ -11,12 +11,13 @@ public class Player {
 	private ArrayList<Ship> ships;
 	//
 	private int[] antiAircrafts;
-	
-	public Player(int width, int height) {
+	private int index;
+	public Player(int width, int height,int index) {
 		this.table = new Board(width, height);
 		this.ships = new ArrayList<Ship>();
 		this.antiAircrafts = new int[2];
 		antiAircrafts[0] = antiAircrafts[1] = -1;//avvalesh invalid bashe
+		this.index = index;
 	}
 	public void addShip(Ship ship) {
 		ships.add(ship);
@@ -35,6 +36,9 @@ public class Player {
 	}
 	public ArrayList<Ship> getShips() {
 		return ships;
+	}
+	public int getIndex() {
+		return index;
 	}
 	/**
 	 * @author M-L-N
@@ -82,18 +86,21 @@ public class Player {
 	 * @param player playeri ke behesh attack mishe
 	 * @param x mokhtasat
 	 * @param y mokhtasat
-	 * @return age anti aircraft nakhord true mide
+	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
 	 */
-	public boolean aircraftAttack(Player player, int row) {
+	public char[] aircraftAttack(Player player, int row) {
 		if(this.antiAircrafts[0] == row) {
 			this.antiAircrafts[0] = -1;
-			return false;
+			return null;
 		}
 		if(this.antiAircrafts[1] == row) {
 			this.antiAircrafts[1] = -1;
-			return false;
+			return null;
 		}
-		// inja bayad khune haro attack kone
-		return false;
+		char[] c = new char[player.table.getWidth()];
+		for(int i=0;i<table.getWidth();i++) {
+			c[i] = attack(player, i, row);
+		}
+		return c;
 	}
 }

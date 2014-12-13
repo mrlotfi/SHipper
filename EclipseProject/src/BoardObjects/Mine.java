@@ -12,8 +12,9 @@ public class Mine extends BaseGameObject {
 			Ship a = (Ship) player.getBoard().get(this.x, this.y);
 			a.damagePart(this.x, this.y);
 			return;
+			//age lazem shod vase inam benvisim team folan explode folan, khorujuisho char mikonim unvaram ye zarre avaz mikonim
 		}
 		if(player.getBoard().get(this.x, this.y).getClass().equals(Mine.class)) 
-			player.getBoard().set(null, this.x, this.y);
+			player.getBoard().set(null, this.x, this.y);// mini ke tu un khune harid hast mipoke :D
 	}
 }

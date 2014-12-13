@@ -1,6 +1,7 @@
 package BoardObjects;
 
 public class Board {
+//	public static final MAX_HEIGHT = 100, MAX_WIDTH = 100; bara faze ba'd :D
 	private int width, height;
 	private BaseGameObject[][] table;
 	
@@ -14,5 +15,11 @@ public class Board {
 	}
 	public BaseGameObject get(int x, int y){
 		return table[y][x];
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return this.height;
 	}
 }
