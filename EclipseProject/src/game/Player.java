@@ -18,6 +18,7 @@ public class Player {
 		this.height = height;
 		this.index = index;
 	}
+
 	public char toChar() {
 		if(index == 0)
 			return 'a';

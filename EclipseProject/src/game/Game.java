@@ -20,7 +20,7 @@ import BoardObjects.Ship;
 public class Game {
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
 	private Queue<int[]> statements;
-	private Player[] players;
+	public Player[] players;
 	public Game(int width, int height) {
 		currentTime = 0;
 		players = new Player[2];
