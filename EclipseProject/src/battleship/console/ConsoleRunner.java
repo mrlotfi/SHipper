@@ -26,16 +26,8 @@ public class ConsoleRunner
 			String inst = input.nextLine();
 			while(!(inst.equals("done")))
 			{
-				switch(i)
-				{
-					case 0 :
-						inst = buildReader(inst,controll.players[0]);
-						break;
-					case 1 :
-						inst = buildReader(inst,controll.players[1]);
-						break;
-				}
-				
+					inst = buildReader(inst,controll.players[0]);
+					break;			
 			}
 		}
 		
