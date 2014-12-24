@@ -24,7 +24,7 @@ public class ConsoleRunner
 			System.out.println("Player number"+(i+1)+", please build your map");
 			
 			String inst = input.nextLine();
-			while(!(inst.equals("DONE")))
+			while(!(inst.equals("done")))
 			{
 				switch(i)
 				{
@@ -41,7 +41,62 @@ public class ConsoleRunner
 		
 		
 		
-		//Attack instructions 
+		
+		while (controll.gameFinished==false)
+		{
+			String s = input.nextLine();
+			// Monazam beshe 
+			//
+			//
+			if(s.charAt(0)=='G')
+			{
+				String s1 = s.substring(3,s.length());
+				int x = Integer.parseInt(s1);
+				//TODO
+				
+			}
+			
+			if(s.charAt(0)=='t')
+			{
+				int z = 2;
+				if(s.charAt(5)=='a')
+				{
+					z = 1 ;
+				}
+				
+				if(s.charAt(7)=='r')
+				{
+					int k = s.indexOf(',');
+					String s1 = s.substring(13,k);
+					String s2 = s.substring(k+1 , s.length());
+					
+					int x = Integer.parseInt(s1);
+					int y = Integer.parseInt(s2);
+					
+					//TODO
+				}
+				
+				if(s.charAt(8)=='t')
+				{
+					int k = s.indexOf(',');
+					String s1 = s.substring(14,k);
+					String s2 = s.substring(k+1 , s.length());
+					
+					int x = Integer.parseInt(s1);
+					int y = Integer.parseInt(s2);
+					
+					//TODO
+				}
+				
+				if(s.charAt(8)=='i')
+				{
+					String s1 = s.substring(15);
+					int x = Integer.parseInt(s1);
+					
+					//TODO
+				}
+			}
+		}
 		
 		
 		
@@ -53,7 +108,7 @@ public class ConsoleRunner
 		// if instruction equals "Anti aircraft"
 		if(s.charAt(0)=='A')
 		{
-			while(!(s.equals("DONE"))&&!(s.equals("MINE")))
+			while(!(s.equals("done"))&&!(s.equals("mine")))
 			{		
 						s =  input.nextLine();
 						int y = Integer.parseInt(s);
@@ -66,7 +121,7 @@ public class ConsoleRunner
 		// if instruction equals "Mine"
 		if(s.charAt(0)=='M')
 		{
-			while(!(s.equals("DONE")))
+			while(!(s.equals("done")))
 			{
 				s = input.nextLine();
 				int num = s.indexOf(',');
@@ -84,7 +139,7 @@ public class ConsoleRunner
 		if(s.charAt(0)!='M'&&s.charAt(0)!='A')
 		{
 			int shipCounter = 0;
-			while(!(s.equals("DONE"))&&!(s.equals("MINE"))&&!(s.equals("Anti aircraft")))
+			while(!(s.equals("done"))&&!(s.equals("mine"))&&!(s.equals("anti aircraft")))
 			{
 				int num = s.indexOf(',');
 				String s1 = s.substring(0,num);
@@ -125,3 +180,4 @@ public class ConsoleRunner
 	return s ;
 	}
 }
+
