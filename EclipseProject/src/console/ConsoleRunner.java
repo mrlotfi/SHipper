@@ -1,16 +1,14 @@
 package console;
 
-<<<<<<< HEAD
-=======
 import java.util.*;
->>>>>>> origin/master
+
 import game.Player;
 
 public class ConsoleRunner {
 	public static void main(String args[]) {
-<<<<<<< HEAD
+
 		Player a = new Player(10,10,0);
-=======
+
 		Scanner input = new Scanner(System.in);
 		
 		for (int i = 0; i < 2; i++) {
@@ -27,6 +25,5 @@ public class ConsoleRunner {
 		
 		
 
->>>>>>> origin/master
 	}
 }
