@@ -21,7 +21,7 @@ public class ConsoleRunner
 		//Build Map 
 		for (int i = 0; i < 2; i++) {
 			
-			System.out.println("Player number "+(i+1)+", please build your map");// ye jaye khali kam dasht
+			System.out.println("Player number "+(i+1)+", please build your map");
 			
 			String inst = input.nextLine();
 			while(!(inst.equals("done")))
@@ -48,20 +48,22 @@ public class ConsoleRunner
 			// Monazam beshe 
 			//
 			//
-			if(s.charAt(0)=='G')
+			if(s.charAt(0)=='g')
 			{
 				String s1 = s.substring(3,s.length());
 				int x = Integer.parseInt(s1);
-				//TODO
+				controll.shiftTimeAndRun(x);
 				
 			}
 			
 			if(s.charAt(0)=='t')
 			{
 				int z = 2;
+				int zd = 1;
 				if(s.charAt(5)=='a')
 				{
 					z = 1 ;
+					zd = 2;
 				}
 				
 				if(s.charAt(7)=='r')
@@ -73,7 +75,7 @@ public class ConsoleRunner
 					int x = Integer.parseInt(s1);
 					int y = Integer.parseInt(s2);
 					
-					//TODO
+					controll.addRadarStatement(x, y, z, zd);
 				}
 				
 				if(s.charAt(8)=='t')
@@ -85,7 +87,7 @@ public class ConsoleRunner
 					int x = Integer.parseInt(s1);
 					int y = Integer.parseInt(s2);
 					
-					//TODO
+					controll.addAttackStatement(x, y, z, zd);
 				}
 				
 				if(s.charAt(8)=='i')
@@ -93,7 +95,7 @@ public class ConsoleRunner
 					String s1 = s.substring(15);
 					int x = Integer.parseInt(s1);
 					
-					//TODO
+					controll.addAircraftStatement(x, z, zd);
 				}
 			}
 		}
@@ -106,7 +108,7 @@ public class ConsoleRunner
 	public static String buildReader(String s,Player p)
 	{
 		// if instruction equals "Anti aircraft"
-		if(s.charAt(0)=='A') // koochik nabashe?
+		if(s.charAt(0)=='a')
 		{
 			while(!(s.equals("done"))&&!(s.equals("mine")))
 			{		
@@ -119,7 +121,7 @@ public class ConsoleRunner
 		}
 		
 		// if instruction equals "Mine"
-		if(s.charAt(0)=='M')
+		if(s.charAt(0)=='m')
 		{
 			while(!(s.equals("done")))
 			{
@@ -136,7 +138,7 @@ public class ConsoleRunner
 		}
 		
 		// for ship instruction 
-		if(s.charAt(0)!='M'&&s.charAt(0)!='A')
+		if(s.charAt(0)!='m'&&s.charAt(0)!='a')
 		{
 			int shipCounter = 0;
 			while(!(s.equals("done"))&&!(s.equals("mine"))&&!(s.equals("anti aircraft")))
