@@ -1,25 +1,24 @@
 package game;
 
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
 
 import BoardObjects.Ship;
 /**
  * fromate reshte haye dastue:
- * statement,Delay,(Player), current time
+ * statement,runTime(zamani ke bayad bere to khoruji un dastor),Player,Player, x, y
  * statement:
  *	 1: aircraft 2:attack 3:radar
- * delay:
- * 	 1 ya 2
  * Player:
- * 	0 ya 1 ya -1 age dastur player nadasht
+ * 	0 ya 1 
+ * age y nadash (zedde havaii) y ro -1 mizarim
+ * ehtemalan bejash ye kelas bezaram tamiz tar she
  * @author M-L-N
  *
  */
 public class Game {
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
-	private Queue<int[]> statements;
+	private ArrayList<int[]> statements;
 	public Player[] players;
 	public boolean gameFinished ;
 	public Game(int width, int height) {
@@ -27,13 +26,49 @@ public class Game {
 		players = new Player[2];
 		players[0] = new Player(width, height, 0);
 		players[1] = new Player(width, height, 1);
-		statements = new LinkedList<int[]>();
+		statements = new ArrayList<int[]>();
 		gameFinished = false ;
 		
 	}
+	public void addAircraftStatement(int row, int playerIndex,int defenderIndex) {
+		statements.add(new int[] {1,currentTime+2,playerIndex,defenderIndex, row, -1});
+	}
+	public void addAttackStatement(int x, int y, int attackerIndex,int defenderIndex) {
+		statements.add(new int[] {2,currentTime+1,attackerIndex,defenderIndex,x,y});
+	}
+	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
+		statements.add(new int[] {3,currentTime+2,subjectIndex,objectIndex,x,y});
+	}
 	public String shiftTimeAndRun(int x) {
-		// dasturaii ke be ejra miresan ro bar hasbe zaman morattab miknim ejra mikonim reshteshuno jam mikonim return mikonim
-		return null;
+		currentTime++;
+		String out = "";
+		ArrayList<int[]> remainings = new ArrayList<int[]>();
+		for(int[] a : statements) {
+			if(a[1] > currentTime) 
+				remainings.add(a);
+			else {
+				if(a[0] == 1) {
+					out = out + players[a[2]].aircraftAttack(players[a[3]],a[4]);
+					if(checkWinner() != null) 
+						out = out + "team "+checkWinner().toChar()+" wins";
+					return out;
+				}
+				else if(a[0] ==2 ) {
+					out = out + players[a[2]].attack(players[a[3]], a[4], a[5]);
+					if(checkWinner() != null) 
+						out = out + "team "+checkWinner().toChar()+" wins";
+					return out;
+				}
+				else {
+					out = out + players[a[2]].radar(players[a[3]], a[4], a[5]);
+					if(checkWinner() != null) 
+						out = out + "team "+checkWinner().toChar()+" wins";
+					return out;
+				}
+			}
+		}
+		statements = remainings;
+		return out;
 	}
 	/**
 	 * Check mikone age yeki hame keshtiash pokid un yeki barandas
@@ -68,4 +103,4 @@ public class Game {
 		}
 		return null;
 	}
-}}
+}

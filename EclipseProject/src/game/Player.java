@@ -96,7 +96,7 @@ public class Player {
 	public String aircraftAttack(Player player, int row) {
 		if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
 			player.table[row][0] = null;
-			return "aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
+			return "team " +toChar()+ " aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
 		}
 		String out = "";
 		for(int i=0;i<height;i++) 
