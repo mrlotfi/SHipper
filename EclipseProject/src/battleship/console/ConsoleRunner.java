@@ -82,7 +82,7 @@ public class ConsoleRunner
 				{
 					int k = s.indexOf(',');
 					String s1 = s.substring(14,k);
-					String s2 = s.substring(k+1 , s.length());
+					String s2 = s.substring(k+1,s.length());
 					
 					int x = Integer.parseInt(s1);
 					int y = Integer.parseInt(s2);
@@ -92,7 +92,7 @@ public class ConsoleRunner
 				
 				if(s.charAt(8)=='i')
 				{
-					String s1 = s.substring(15);
+					String s1 = s.substring(16);
 					int x = Integer.parseInt(s1);
 					
 					controll.addAircraftStatement(x, z, zd);
@@ -110,9 +110,9 @@ public class ConsoleRunner
 		// if instruction equals "Anti aircraft"
 		if(s.charAt(0)=='a')
 		{
+			s= input.nextLine();
 			while(!(s.equals("done"))&&!(s.equals("mine")))
 			{		
-						s =  input.nextLine();
 						int y = Integer.parseInt(s);
 			
 						p.addAntiAircraft(y);
@@ -123,9 +123,9 @@ public class ConsoleRunner
 		// if instruction equals "Mine"
 		if(s.charAt(0)=='m')
 		{
+			s=input.nextLine();
 			while(!(s.equals("done")))
 			{
-				s = input.nextLine();
 				int num = s.indexOf(',');
 				String s1 = s.substring(0,num);
 				String s2 = s.substring(num+1,s.length());
@@ -134,6 +134,7 @@ public class ConsoleRunner
 				int y = Integer.parseInt(s2);
 			
 				p.addMine(x, y);
+				s = input.nextLine(); 
 			}
 		}
 		
