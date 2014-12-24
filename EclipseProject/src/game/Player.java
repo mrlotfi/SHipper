@@ -18,6 +18,11 @@ public class Player {
 		this.ships = new ArrayList<Ship>();
 		this.index = index;
 	}
+	public char toChar() {
+		if(index == 0)
+			return 'a';
+		return 'b';
+	}
 	public void addShip(Ship ship) {// ino avaz mikonim age lazem shod (x,y,polarity , length begire)
 		ships.add(ship);
 	}
@@ -43,7 +48,7 @@ public class Player {
 	public String radar(Player player, int x, int y) {
 		String returnVal = "";
 		for(Ship hisShip : player.ships) {
-			returnVal = returnVal + hisShip.radar(x, y);
+			returnVal = returnVal + hisShip.radar(x, y, player.toChar());
 		}
 		return returnVal;
 	}
