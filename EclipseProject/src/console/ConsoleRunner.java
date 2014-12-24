@@ -16,12 +16,12 @@ public class ConsoleRunner
 		int n = input.nextInt(); 
 		input.nextLine();
 		
-		GameController controll = new GameController(m, n);
+		Game controll = new Game(m, n);
 		
 		//Build Map 
 		for (int i = 0; i < 2; i++) {
 			
-			System.out.println("Player number"+(i+1)+", please build your map");
+			System.out.println("Player number "+(i+1)+", please build your map");// ye jaye khali kam dasht
 			
 			String inst = input.nextLine();
 			while(!(inst.equals("done")))
@@ -106,7 +106,7 @@ public class ConsoleRunner
 	public static String buildReader(String s,Player p)
 	{
 		// if instruction equals "Anti aircraft"
-		if(s.charAt(0)=='A')
+		if(s.charAt(0)=='A') // koochik nabashe?
 		{
 			while(!(s.equals("done"))&&!(s.equals("mine")))
 			{		

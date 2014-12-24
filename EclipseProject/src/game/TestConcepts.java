@@ -10,11 +10,8 @@ import BoardObjects.Ship;
  */
 public class TestConcepts {
 	public static void main(String args[]) {
-		Player p1 = new Player(10,10,0);
-		Player p2 = new Player(10,10,1);
-		Ship a = new Ship('V',1,3,4,p1);
-		Ship b = new Ship('V',0,0,1,p2);
-		p1.addShip(a);
+		Player p1 = new Player(50,50,0);
+		Player p2 = new Player(50,50,1);
 		
 		/*
 		p2.addShip(b);
