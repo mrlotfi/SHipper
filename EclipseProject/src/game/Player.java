@@ -10,12 +10,12 @@ public class Player {
 //	private String name;// in vase faaze ba'd :D
 	private ArrayList<Ship> ships;
 	private int index;// 0 ya 1
+	private int width, height;
 	public Player(int width, int height,int index) {
 		this.table = new BaseGameObject[width][height];
-		for(int i=0;i<width;i++) 
-			for(int j=0;j<height;j++) 
-				table[i][j] = new BaseGameObject(i,j);
 		this.ships = new ArrayList<Ship>();
+		this.width = width;
+		this.height = height;
 		this.index = index;
 	}
 	public char toChar() {
@@ -26,8 +26,11 @@ public class Player {
 	public void addShip(Ship ship) {// ino avaz mikonim age lazem shod (x,y,polarity , length begire)
 		ships.add(ship);
 	}
-	public void setAntiAircraft(int y) {
-		table[0][y] = new AntiAircraft(0, y);
+	public void addMine(int x,int y) {
+		table[x][y] = new Mine(x,y, this);
+	}
+	public void addAntiAircraft(int x) {
+		table[x][0] = new AntiAircraft(x, 0);
 	}
 	public BaseGameObject[][] getBoard() {
 		return table;
@@ -48,7 +51,7 @@ public class Player {
 	public String radar(Player player, int x, int y) {
 		String returnVal = "";
 		for(Ship hisShip : player.ships) {
-			returnVal = returnVal + hisShip.radar(x, y, player.toChar());
+			returnVal = returnVal + hisShip.radar(x, y, this);
 		}
 		return returnVal;
 	}
@@ -59,21 +62,28 @@ public class Player {
 	 * @param x mokhtasat
 	 * @param y mokhtasat
 	 * @return age keshti zad 2 mide.age min zad 1 mide. age  hichi nazad sefr mide
-	 */ /*
-	public char attack(Player player, int x, int y) {
-		BaseGameObject o  = player.table.get(x, y);
+	 */ 
+	public String attack(Player player, int x, int y) {
+		BaseGameObject o  = player.table[x][y];
+		if(o == null)
+			return "";
 		if(o.getClass().equals(Ship.class)) {
 			Ship a = (Ship) o;
 			if (a.damagePart(x, y))
-				return '2';
-			return '0';
+				return "team "+toChar()+" explode "+ (x+1) + "," + (y+1) +"\n";
+			return "";
 		}
 		if(o.getClass().equals(Mine.class)) {
 			Mine m = (Mine) o;
-			m.explode(this);
-			return '1';
+			String out = m.explode(x, y, this);
+			player.table[x][y] = null;// dg mini vojud nadare
+			return out;
 		}
-		return '0';
+		if(o.getClass().equals(AntiAircraft.class)) {
+			player.table[x][y] = null;
+			return "team " + player.toChar()  +" anti aircraft row " +  (x+1) + " exploded"+ "\n" ;
+		}
+		return "";
 	} 
 	/**
 	 * 
@@ -81,20 +91,15 @@ public class Player {
 	 * @param x mokhtasat
 	 * @param y mokhtasat
 	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
-	 */ /*
-	public char[] aircraftAttack(Player player, int row) {
-		if(this.antiAircrafts[0] == row) {
-			this.antiAircrafts[0] = -1;
-			return null;
+	 */ 
+	public String aircraftAttack(Player player, int row) {
+		if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
+			player.table[row][0] = null;
+			return "aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
 		}
-		if(this.antiAircrafts[1] == row) {
-			this.antiAircrafts[1] = -1;
-			return null;
-		}
-		char[] c = new char[player.table.getWidth()];
-		for(int i=0;i<table.getWidth();i++) {
-			c[i] = attack(player, i, row);
-		}
-		return c;
-	}*/
+		String out = "";
+		for(int i=0;i<height;i++) 
+			out = out + attack(player, row , i);
+		return out;
+	}
 }

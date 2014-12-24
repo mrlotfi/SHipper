@@ -1,4 +1,9 @@
 package BoardObjects;
+
+import game.Player;
+
+
+
 /**
  * 
  * @author M-L-N
@@ -28,7 +33,7 @@ public class Ship extends BaseGameObject {
 		return -1;//nabayd be inja berese. age resid exception mikhore mifahmim
 	}
 	
-	public Ship(char polarity, int x, int y, int length, BaseGameObject cells[][]) {
+	public Ship(char polarity, int x, int y, int length, Player player) {
 		super(x,y);
 		this.length = length;
 		this.polarity = polarity;
@@ -36,13 +41,13 @@ public class Ship extends BaseGameObject {
 		
 		if(polarity == 'H') {
 			for(int i=0;i<this.length;i++) {
-				cells[x+i][y] = this;
+				player.getBoard()[x+i][y] = this;
 				parts[i] = true;
 			}
 		}
 		else {
 			for(int i=0;i<this.length;i++) {
-				cells[x][y+i] = this;
+				player.getBoard()[x][y+i] = this;
 				parts[i] = true;
 			}
 		}
@@ -68,18 +73,18 @@ public class Ship extends BaseGameObject {
 	/**
 	 * @param player playeri ke rush radar mizane (a ya b)
 	 */
-	public String radar(int x, int y, char player) {
+	public String radar(int x, int y, Player player) {
 		String out = "";
 		if(polarity == 'H') {
 			for(int i=0;i<this.length;i++) {
 				if( Math.abs(this.x+i -x) + Math.abs(this.y-y) <= 1) 
-					out = out + "team " + player +" detected " + (x+i)+"," + y +"\n";
+					out = out + "team " + player.toChar() +" detected " + (x+i)+"," + y +"\n";
 			}
 		}
 		else {
 			for(int i=0;i<this.length;i++) {
 				if( Math.abs(this.x -x) + Math.abs(this.y+i-y) <= 1) 
-					out = out + "team " + player +" detected " + (x+i)+"," + y +"\n";
+					out = out + "team " + player.toChar() +" detected " + (x+i)+"," + y +"\n";
 			}
 		}
 		return out;
