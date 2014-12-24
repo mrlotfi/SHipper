@@ -21,12 +21,14 @@ public class Game {
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
 	private Queue<int[]> statements;
 	public Player[] players;
+	public boolean gameFinished ;
 	public Game(int width, int height) {
 		currentTime = 0;
 		players = new Player[2];
 		players[0] = new Player(width, height, 0);
 		players[1] = new Player(width, height, 1);
 		statements = new LinkedList<int[]>();
+		gameFinished = false ;
 		
 	}
 	public String shiftTimeAndRun(int x) {
@@ -51,12 +53,19 @@ public class Game {
 				break;
 			}
 		}
-		if(win0 && win1)
+		if(win0 && win1){
+			gameFinished=true;
 			return null;// alal osul nabayad be chenin vazi bokhorim
-		if(win0)
+		}
+		if(win0){
+			gameFinished=true;
 			return players[0];
-		if(win1)
+		}
+		
+		if(win1){	
+			gameFinished=true;
 			return players[1];
+		}
 		return null;
 	}
-}
+}}
