@@ -28,7 +28,8 @@ public class Player {
 		ships.add(ship);
 	}
 	public void addMine(int x,int y) {
-		table[x][y] = new Mine(x,y, this);
+		if(table[x][y] == null)
+			table[x][y] = new Mine(x,y, this);
 	}
 	public void addAntiAircraft(int x) {
 		table[x][0] = new AntiAircraft(x, 0);
@@ -51,8 +52,22 @@ public class Player {
 	 */
 	public String radar(Player player, int x, int y) {
 		String returnVal = "";
-		for(Ship hisShip : player.ships) {
-			returnVal = returnVal + hisShip.radar(x, y, this);
+		int downX,downY;
+		downX = x-1;downY = y-1; // age sefr budan az array nazane birun
+		if(x == 0)
+			downX = x;
+		if(y==0)
+			downY = y;
+		for(int i=downX;i<=x+1;i++) {
+			for(int j=downY;j<=y+1;j++) {
+				if(player.getBoard()[i][j] == null) 
+					continue;
+				if(player.getBoard()[i][j].getClass().equals(Ship.class)) {
+					Ship s =(Ship) player.getBoard()[i][j];
+					if(s.isPartNonDamaged(i, j)) 
+						returnVal = returnVal + "team "+toChar()+" detected "+(i+1)+","+(j+1)+"\n";
+				}
+			}
 		}
 		return returnVal;
 	}
