@@ -30,11 +30,8 @@ public class ConsoleRunner
 					inst = buildReader(inst,controll.players[i]);	
 			}
 
-				inst = buildReader(inst,controll.players[i]);
-
+				
 		}
-		
-		
 		
 		
 		while (controll.gameFinished==false)
