@@ -26,8 +26,7 @@ public class ConsoleRunner
 			String inst = input.nextLine();
 			while(!(inst.equals("done")))
 			{
-					inst = buildReader(inst,controll.players[0]);
-					break;			
+					inst = buildReader(inst,controll.players[i]);	
 			}
 		}
 		
@@ -44,18 +43,19 @@ public class ConsoleRunner
 			{
 				String s1 = s.substring(3,s.length());
 				int x = Integer.parseInt(s1);
-				controll.shiftTimeAndRun(x);
+				 
+				System.out.print(controll.shiftTimeAndRun());
 				
 			}
 			
 			if(s.charAt(0)=='t')
 			{
-				int z = 2;
-				int zd = 1;
+				int z = 1;
+				int zd = 0;
 				if(s.charAt(5)=='a')
 				{
-					z = 1 ;
-					zd = 2;
+					z = 0 ;
+					zd = 1;
 				}
 				
 				if(s.charAt(7)=='r')
@@ -64,8 +64,8 @@ public class ConsoleRunner
 					String s1 = s.substring(13,k);
 					String s2 = s.substring(k+1 , s.length());
 					
-					int x = Integer.parseInt(s1);
-					int y = Integer.parseInt(s2);
+					int x = Integer.parseInt(s1) - 1;// az sefr bayad shoro shan
+					int y = Integer.parseInt(s2) - 1;
 					
 					controll.addRadarStatement(x, y, z, zd);
 				}
@@ -76,8 +76,8 @@ public class ConsoleRunner
 					String s1 = s.substring(14,k);
 					String s2 = s.substring(k+1,s.length());
 					
-					int x = Integer.parseInt(s1);
-					int y = Integer.parseInt(s2);
+					int x = Integer.parseInt(s1) - 1;
+					int y = Integer.parseInt(s2) - 1;
 					
 					controll.addAttackStatement(x, y, z, zd);
 				}
@@ -85,7 +85,7 @@ public class ConsoleRunner
 				if(s.charAt(8)=='i')
 				{
 					String s1 = s.substring(16);
-					int x = Integer.parseInt(s1);
+					int x = Integer.parseInt(s1) - 1 ;
 					
 					controll.addAircraftStatement(x, z, zd);
 				}
