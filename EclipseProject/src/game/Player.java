@@ -94,6 +94,8 @@ public class Player {
 	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
 	 */ 
 	public String aircraftAttack(Player player, int row) {
+		if(player.table[row][0] == null) 
+			return "";
 		if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
 			player.table[row][0] = null;
 			return "team " +toChar()+ " aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/

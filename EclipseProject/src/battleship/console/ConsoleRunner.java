@@ -44,9 +44,8 @@ public class ConsoleRunner
 			{
 				String s1 = s.substring(3,s.length());
 				int x = Integer.parseInt(s1);
-				 
-				System.out.print(controll.shiftTimeAndRun());
-				
+				 for(int i=0;i<x;i++)
+					 System.out.print(controll.shiftTimeAndRun());
 			}
 			
 			if(s.charAt(0)=='t')
@@ -106,7 +105,7 @@ public class ConsoleRunner
 			s= input.nextLine();
 			while(!(s.equals("done"))&&!(s.equals("mine")))
 			{		
-						int y = Integer.parseInt(s);
+						int y = Integer.parseInt(s) - 1 ;
 			
 						p.addAntiAircraft(y);
 						s = input.nextLine();
@@ -123,8 +122,8 @@ public class ConsoleRunner
 				String s1 = s.substring(0,num);
 				String s2 = s.substring(num+1,s.length());
 			
-				int x = Integer.parseInt(s1);
-				int y = Integer.parseInt(s2);
+				int x = Integer.parseInt(s1) - 1;
+				int y = Integer.parseInt(s2) - 1;
 			
 				p.addMine(x, y);
 				s = input.nextLine(); 
@@ -141,8 +140,8 @@ public class ConsoleRunner
 				String s1 = s.substring(0,num);
 				String s2 = s.substring(num+1,s.length()-2);
 			
-				int x = Integer.parseInt(s1);
-				int y = Integer.parseInt(s2);
+				int x = Integer.parseInt(s1) - 1;
+				int y = Integer.parseInt(s2) - 1;
 				char c = s.charAt(s.length()-1);
 				
 				int z = 4 ;

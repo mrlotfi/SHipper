@@ -50,26 +50,25 @@ public class Game {
 			else {
 				if(a[0] == 1) {
 					out = out + players[a[2]].aircraftAttack(players[a[3]],a[4]);
-					if(checkWinner() != null) 
+					if(checkWinner() != null) {
 						out = out + "team "+checkWinner().toChar()+" wins";
-					return out;
+						return out;
+					}
 				}
 				else if(a[0] ==2 ) {
 					out = out + players[a[2]].attack(players[a[3]], a[4], a[5]);
-					if(checkWinner() != null) 
+					if(checkWinner() != null) {
 						out = out + "team "+checkWinner().toChar()+" wins";
-					return out;
+						return out; 
+					}
 				}
 				else {
 					out = out + players[a[2]].radar(players[a[3]], a[4], a[5]);
-					if(checkWinner() != null) 
-						out = out + "team "+checkWinner().toChar()+" wins";
-					return out;
 				}
 			}
 		}
 		statements = remainings;
-		return out+"j";
+		return out;
 	}
 	/**
 	 * Check mikone age yeki hame keshtiash pokid un yeki barandas
