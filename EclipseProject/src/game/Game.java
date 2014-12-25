@@ -39,7 +39,8 @@ public class Game {
 	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
 		statements.add(new int[] {3,currentTime+2,subjectIndex,objectIndex,x,y});
 	}
-	public String shiftTimeAndRun(int x) {
+	
+	public String shiftTimeAndRun() {
 		currentTime++;
 		String out = "";
 		ArrayList<int[]> remainings = new ArrayList<int[]>();
@@ -68,7 +69,7 @@ public class Game {
 			}
 		}
 		statements = remainings;
-		return out;
+		return out+"j";
 	}
 	/**
 	 * Check mikone age yeki hame keshtiash pokid un yeki barandas
