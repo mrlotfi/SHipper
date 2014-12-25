@@ -1,178 +1,84 @@
 package battleship.console;
+import game.Game;
 
-import java.util.*;
-import game.*;
-import BoardObjects.*;
+import java.util.Scanner;
 
-public class ConsoleRunner
-{
-	static Scanner input = new Scanner(System.in);
-
+import BoardObjects.Ship;
+public class ConsoleRunner {
 	public static void main(String args[]) {
-		
-		
-		int m = input.nextInt();
-		input.nextLine();
-		int n = input.nextInt(); 
-		input.nextLine();
-		
-		Game controll = new Game(m, n);
-		
-		//Build Map 
-		for (int i = 0; i < 2; i++) {
-			
-			System.out.println("Player number "+(i+1)+", please build your map");
-			
-			String inst = input.nextLine();
-			while(!(inst.equals("done")))
-
-			{
-					inst = buildReader(inst,controll.players[i]);	
+		Scanner reader = new Scanner(System.in);
+		int width, height;
+		width = reader.nextInt();
+		height = reader.nextInt();
+		reader.nextLine();
+		Game myGame = new Game(width, height);
+		String input;
+		for(int playerIndex=0;playerIndex<2;playerIndex++) {
+			System.out.println("Player number " + (playerIndex+1) + ", please build your map");
+			for(int i=0;i<7;i++) {
+				input  = reader.nextLine();
+				char pol = input.charAt(input.length()-1);
+				int length;
+				length = (8-i) /2;
+				int place = input.indexOf(",");
+				int x = Integer.parseInt(input.substring(0, place)) - 1;
+				int y = Integer.parseInt(input.substring(place+1,input.length()-2)) - 1;
+				myGame.players[playerIndex].addShip(
+						new Ship(pol,x,y,length,myGame.players[playerIndex]));
 			}
-
-				
-		}
-		
-		
-		while (controll.gameFinished==false)
-		{
-			String s = input.nextLine();
-			// Monazam beshe 
-			//
-			//
-			if(s.charAt(0)=='g')
-			{
-				String s1 = s.substring(3,s.length());
-				int x = Integer.parseInt(s1);
-				 for(int i=0;i<x;i++)
-					 System.out.print(controll.shiftTimeAndRun());
+			input = reader.nextLine();
+			if(input.charAt(0) != 'm' && input.charAt(0) != 'd') {
+				input = reader.nextLine();
+				while(input.charAt(0) != 'm' && input.charAt(0) != 'd') {
+					int y = Integer.parseInt(input) - 1;
+					myGame.players[playerIndex].addAntiAircraft(y);
+					input = reader.nextLine();
+				}
 			}
-			
-			if(s.charAt(0)=='t')
-			{
-				int z = 1;
-				int zd = 0;
-				if(s.charAt(5)=='a')
-				{
-					z = 0 ;
-					zd = 1;
-				}
-				
-				if(s.charAt(7)=='r')
-				{
-					int k = s.indexOf(',');
-					String s1 = s.substring(13,k);
-					String s2 = s.substring(k+1 , s.length());
-					
-					int x = Integer.parseInt(s1) - 1;// az sefr bayad shoro shan
-					int y = Integer.parseInt(s2) - 1;
-					
-					controll.addRadarStatement(x, y, z, zd);
-				}
-				
-				if(s.charAt(8)=='t')
-				{
-					int k = s.indexOf(',');
-					String s1 = s.substring(14,k);
-					String s2 = s.substring(k+1,s.length());
-					
-					int x = Integer.parseInt(s1) - 1;
-					int y = Integer.parseInt(s2) - 1;
-					
-					controll.addAttackStatement(x, y, z, zd);
-				}
-				
-				if(s.charAt(8)=='i')
-				{
-					String s1 = s.substring(16);
-					int x = Integer.parseInt(s1) - 1 ;
-					
-					controll.addAircraftStatement(x, z, zd);
+			if(input.charAt(0) != 'd') {
+				input = reader.nextLine();
+				while(input.charAt(0) != 'd') {
+					int place = input.indexOf(",");
+					int x = Integer.parseInt(input.substring(0,place)) - 1;
+					int y = Integer.parseInt(input.substring(place+1)) - 1;
+					myGame.players[playerIndex].addMine(x, y);
+					input = reader.nextLine();
 				}
 			}
 		}
-		
-		
-		
-
-	}
-	// for recognize build instructions
-	public static String buildReader(String s,Player p)
-	{
-		// if instruction equals "Anti aircraft"
-		if(s.charAt(0)=='a')
-		{
-			s= input.nextLine();
-			while(!(s.equals("done"))&&!(s.equals("mine")))
-			{		
-						int y = Integer.parseInt(s) - 1 ;
-			
-						p.addAntiAircraft(y);
-						s = input.nextLine();
-			}
-		}
-		
-		// if instruction equals "Mine"
-		if(s.charAt(0)=='m')
-		{
-			s=input.nextLine();
-			while(!(s.equals("done")))
-			{
-				int num = s.indexOf(',');
-				String s1 = s.substring(0,num);
-				String s2 = s.substring(num+1,s.length());
-			
-				int x = Integer.parseInt(s1) - 1;
-				int y = Integer.parseInt(s2) - 1;
-			
-				p.addMine(x, y);
-				s = input.nextLine(); 
-			}
-		}
-		
-		// for ship instruction 
-		if(s.charAt(0)!='m'&&s.charAt(0)!='a')
-		{
-			int shipCounter = 0;
-			while(!(s.equals("done"))&&!(s.equals("mine"))&&!(s.equals("anti aircraft")))
-			{
-				int num = s.indexOf(',');
-				String s1 = s.substring(0,num);
-				String s2 = s.substring(num+1,s.length()-2);
-			
-				int x = Integer.parseInt(s1) - 1;
-				int y = Integer.parseInt(s2) - 1;
-				char c = s.charAt(s.length()-1);
-				
-				int z = 4 ;
-				switch(shipCounter){
-					case 0:
-						z = 4;
-						break;
-					
-					case 1:
-					case 2:
-						z = 3;
-						break;
-					case 3:
-					case 4:
-						z = 2;
-						break;
-					case 5:
-					case 6:
-						z=1;
-						break;
+		// now game is ready for instructions
+		while(reader.hasNext()) {
+			input = reader.nextLine();
+			if(input.charAt(0) == 't') {
+				char team = input.charAt(5);
+				int index = 0;
+				if(team == 'b')
+					index = 1;
+				int index2;
+				index2 = 1-index;
+				if(input.charAt(7) == 'r') {
+					int place = input.indexOf(",");
+					int x = Integer.parseInt(input.substring(13, place)) - 1;
+					int y = Integer.parseInt(input.substring(place+1 )) - 1;
+					myGame.addRadarStatement(x, y, index, index2);
+				}
+				if(input.charAt(8) == 'i') {
+					int x = Integer.parseInt(input.substring(16)) - 1;
+					myGame.addAircraftStatement(x, index, index2);
+				}
+				if(input.charAt(8) == 't') {
+					int place = input.indexOf(",");
+					int x = Integer.parseInt(input.substring(14, place)) - 1;
+					int y = Integer.parseInt(input.substring(place+1 )) - 1;
+					myGame.addAttackStatement(x, y, index, index2);
 				}
 				
-				Ship ship = new Ship(c,x,y,z,p);
-				p.addShip(ship);
-				shipCounter++;
-				
-				s = input.nextLine();				
 			}
-		}	
-		
-	return s ;
+			else {
+					int time = Integer.parseInt(input.substring(3));
+					for(int i=0;i<time;i++)
+						System.out.print(myGame.shiftTimeAndRun());
+			}
+		}
 	}
 }
-

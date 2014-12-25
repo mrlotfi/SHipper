@@ -1,5 +1,5 @@
 package BoardObjects;
-/*
+
 public class Board {
 //	public static final MAX_HEIGHT = 100, MAX_WIDTH = 100; bara faze ba'd :D
 	private int width, height;
@@ -22,4 +22,4 @@ public class Board {
 	public int getHeight() {
 		return this.height;
 	}
-} */
+} 

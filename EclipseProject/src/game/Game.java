@@ -12,17 +12,19 @@ import BoardObjects.Ship;
  * Player:
  * 	0 ya 1 
  * age y nadash (zedde havaii) y ro -1 mizarim
+ * aAcc , bAcc: marbut be safe dasturaye jari
  * ehtemalan bejash ye kelas bezaram tamiz tar she
  * @author M-L-N
  *
  */
 public class Game {
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
+	private int aAcc,bAcc;
 	private ArrayList<int[]> statements;
 	public Player[] players;
 	public boolean gameFinished ;
 	public Game(int width, int height) {
-		currentTime = 0;
+		aAcc = bAcc = currentTime = 0;
 		players = new Player[2];
 		players[0] = new Player(width, height, 0);
 		players[1] = new Player(width, height, 1);
@@ -31,23 +33,47 @@ public class Game {
 		
 	}
 	public void addAircraftStatement(int row, int playerIndex,int defenderIndex) {
-		statements.add(new int[] {1,currentTime+2,playerIndex,defenderIndex, row, -1});
+		int ted;
+		if(playerIndex == 0) {
+			ted = aAcc;
+			aAcc+=2;
+		}
+		else {
+			ted = bAcc;
+			bAcc+=2;
+		}
+		statements.add(new int[] {1,currentTime+ted+2,playerIndex,defenderIndex, row, -1});
 	}
 	public void addAttackStatement(int x, int y, int attackerIndex,int defenderIndex) {
-		statements.add(new int[] {2,currentTime+1,attackerIndex,defenderIndex,x,y});
+		int ted;
+		if(attackerIndex == 0)  {
+			ted = aAcc;
+			aAcc++;
+		}
+		else {
+			ted = bAcc;
+			bAcc++;
+		}
+		statements.add(new int[] {2,currentTime+ted+1,attackerIndex,defenderIndex,x,y});
 	}
 	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
-		statements.add(new int[] {3,currentTime+2,subjectIndex,objectIndex,x,y});
+		int ted;
+		if(subjectIndex == 0) {
+			ted = aAcc;
+			aAcc+=2;
+		}
+		else {
+			ted = bAcc;
+			bAcc+=2;
+		}
+		statements.add(new int[] {3,currentTime+ted+2,subjectIndex,objectIndex,x,y});
 	}
 	
 	public String shiftTimeAndRun() {
 		currentTime++;
 		String out = "";
-		ArrayList<int[]> remainings = new ArrayList<int[]>();
 		for(int[] a : statements) {
-			if(a[1] > currentTime) 
-				remainings.add(a);
-			else {
+			if(a[1] == currentTime) {
 				if(a[0] == 1) {
 					out = out + players[a[2]].aircraftAttack(players[a[3]],a[4]);
 					if(checkWinner() != null) {
@@ -59,7 +85,10 @@ public class Game {
 					out = out + players[a[2]].attack(players[a[3]], a[4], a[5]);
 					if(checkWinner() != null) {
 						out = out + "team "+checkWinner().toChar()+" wins";
-						return out; 
+						if(checkWinner() != null) {
+							out = out + "team "+checkWinner().toChar()+" wins";
+							return out;
+						} 
 					}
 				}
 				else {
@@ -67,7 +96,6 @@ public class Game {
 				}
 			}
 		}
-		statements = remainings;
 		return out;
 	}
 	/**

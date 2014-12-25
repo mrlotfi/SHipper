@@ -10,7 +10,7 @@ public class Player {
 //	private String name;// in vase faaze ba'd :D
 	private ArrayList<Ship> ships;
 	private int index;// 0 ya 1
-	private int width, height;
+	private int width,height;
 	public Player(int width, int height,int index) {
 		this.table = new BaseGameObject[width][height];
 		this.ships = new ArrayList<Ship>();
@@ -94,11 +94,11 @@ public class Player {
 	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
 	 */ 
 	public String aircraftAttack(Player player, int row) {
-		if(player.table[row][0] == null) 
-			return "";
-		if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
-			player.table[row][0] = null;
-			return "team " +toChar()+ " aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
+		if(player.table[row][0] != null) {
+			if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
+				player.table[row][0] = null;
+				return "team " +toChar()+ " aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
+			}
 		}
 		String out = "";
 		for(int i=0;i<height;i++) 
