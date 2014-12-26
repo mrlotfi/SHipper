@@ -69,7 +69,7 @@ public class Player {
 				}
 			}
 		}
-		return returnVal;
+		return returnVal; 
 	}
 	
 	
@@ -81,8 +81,9 @@ public class Player {
 	 */ 
 	public String attack(Player player, int x, int y) {
 		BaseGameObject o  = player.table[x][y];
-		if(o == null)
+		if(o == null) {
 			return "";
+		}
 		if(o.getClass().equals(Ship.class)) {
 			Ship a = (Ship) o;
 			if (a.damagePart(x, y))

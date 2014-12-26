@@ -127,10 +127,7 @@ public class Game {
 					out = out + players[a[2]].attack(players[a[3]], a[4], a[5]);
 					if(checkWinner() != null) {
 						out = out + "team "+checkWinner().toChar()+" wins";
-						if(checkWinner() != null) {
-							out = out + "team "+checkWinner().toChar()+" wins";
-							return out;
-						} 
+						return out;
 					}
 				}
 				else {
