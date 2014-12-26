@@ -37,7 +37,7 @@ public class Game {
 		if(playerIndex == 0) {
 			if(currentTime <= aAcc) {
 				ted = aAcc;
-				aAcc++;
+				aAcc+=2;
 			}
 			else {
 				aAcc = currentTime;
@@ -48,7 +48,7 @@ public class Game {
 		else {
 			if(currentTime <= bAcc) {
 				ted = bAcc;
-				bAcc++;
+				bAcc+=2;
 			}
 			else {
 				bAcc = currentTime;
@@ -89,7 +89,7 @@ public class Game {
 		if(subjectIndex == 0) {
 			if(currentTime <= aAcc) {
 				ted = aAcc;
-				aAcc++;
+				aAcc+=2;
 			}
 			else {
 				aAcc = currentTime;
@@ -100,7 +100,7 @@ public class Game {
 		else {
 			if(currentTime <= bAcc) {
 				ted = bAcc;
-				bAcc++;
+				bAcc+=2;
 			}
 			else {
 				bAcc = currentTime;
