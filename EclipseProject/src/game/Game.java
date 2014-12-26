@@ -19,7 +19,7 @@ import BoardObjects.Ship;
  */
 public class Game {
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
-	private int aAcc,bAcc;
+	private int aAcc,bAcc;// iAcc holds the time of run of player i's last operation
 	private ArrayList<int[]> statements;
 	public Player[] players;
 	public boolean gameFinished ;
@@ -35,36 +35,78 @@ public class Game {
 	public void addAircraftStatement(int row, int playerIndex,int defenderIndex) {
 		int ted;
 		if(playerIndex == 0) {
-			ted = aAcc;
-			aAcc+=2;
+			if(currentTime <= aAcc) {
+				ted = aAcc;
+				aAcc++;
+			}
+			else {
+				aAcc = currentTime;
+				ted = aAcc;
+				aAcc+=2;
+			}
 		}
 		else {
-			ted = bAcc;
-			bAcc+=2;
+			if(currentTime <= bAcc) {
+				ted = bAcc;
+				bAcc++;
+			}
+			else {
+				bAcc = currentTime;
+				ted = bAcc;
+				bAcc+=2;
+			}
 		}
 		statements.add(new int[] {1,ted+2,playerIndex,defenderIndex, row, -1});
 	}
 	public void addAttackStatement(int x, int y, int attackerIndex,int defenderIndex) {
-		int ted;
+		int ted;	
 		if(attackerIndex == 0)  {
-			ted = aAcc;
-			aAcc++;
+			if(currentTime <= aAcc) {
+				ted = aAcc;
+				aAcc++;
+			}
+			else {
+				aAcc = currentTime;
+				ted = aAcc;
+				aAcc++;
+			}
 		}
 		else {
-			ted = bAcc;
-			bAcc++;
+			if(currentTime <= bAcc) {
+				ted = bAcc;
+				bAcc++;
+			}
+			else {
+				bAcc = currentTime;
+				ted = bAcc;
+				bAcc++;
+			}
 		}
 		statements.add(new int[] {2,ted+1,attackerIndex,defenderIndex,x,y});
 	}
 	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
 		int ted;
 		if(subjectIndex == 0) {
-			ted = aAcc;
-			aAcc+=2;
+			if(currentTime <= aAcc) {
+				ted = aAcc;
+				aAcc++;
+			}
+			else {
+				aAcc = currentTime;
+				ted = aAcc;
+				aAcc+=2;
+			}
 		}
 		else {
-			ted = bAcc;
-			bAcc+=2;
+			if(currentTime <= bAcc) {
+				ted = bAcc;
+				bAcc++;
+			}
+			else {
+				bAcc = currentTime;
+				ted = bAcc;
+				bAcc+=2;
+			}
 		}
 		statements.add(new int[] {3,ted+2,subjectIndex,objectIndex,x,y});
 	}
