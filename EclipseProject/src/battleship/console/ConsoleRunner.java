@@ -47,7 +47,7 @@ public class ConsoleRunner {
 			}
 		}
 		// now game is ready for instructions
-		while(reader.hasNext() && !myGame.gameFinished) {
+		while(!myGame.gameFinished) {
 			input = reader.nextLine();
 			if(input.charAt(0) == 't') {
 				char team = input.charAt(5);

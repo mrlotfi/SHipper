@@ -42,7 +42,7 @@ public class Game {
 			ted = bAcc;
 			bAcc+=2;
 		}
-		statements.add(new int[] {1,currentTime+ted+2,playerIndex,defenderIndex, row, -1});
+		statements.add(new int[] {1,ted+2,playerIndex,defenderIndex, row, -1});
 	}
 	public void addAttackStatement(int x, int y, int attackerIndex,int defenderIndex) {
 		int ted;
@@ -54,7 +54,7 @@ public class Game {
 			ted = bAcc;
 			bAcc++;
 		}
-		statements.add(new int[] {2,currentTime+ted+1,attackerIndex,defenderIndex,x,y});
+		statements.add(new int[] {2,ted+1,attackerIndex,defenderIndex,x,y});
 	}
 	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
 		int ted;
@@ -66,7 +66,7 @@ public class Game {
 			ted = bAcc;
 			bAcc+=2;
 		}
-		statements.add(new int[] {3,currentTime+ted+2,subjectIndex,objectIndex,x,y});
+		statements.add(new int[] {3,ted+2,subjectIndex,objectIndex,x,y});
 	}
 	
 	public String shiftTimeAndRun() {

@@ -31,8 +31,8 @@ public class Player {
 		if(table[x][y] == null)
 			table[x][y] = new Mine(x,y, this);
 	}
-	public void addAntiAircraft(int x) {
-		table[x][0] = new AntiAircraft(x, 0);
+	public void addAntiAircraft(int y) {
+		table[0][y] = new AntiAircraft(0, y);
 	}
 	public BaseGameObject[][] getBoard() {
 		return table;
@@ -109,15 +109,15 @@ public class Player {
 	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
 	 */ 
 	public String aircraftAttack(Player player, int row) {
-		if(player.table[row][0] != null) {
-			if(player.table[row][0].getClass().equals(AntiAircraft.class)) {
-				player.table[row][0] = null;
-				return "team " +toChar()+ " aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
+		if(player.table[0][row] != null) {
+			if(player.table[0][row].getClass().equals(AntiAircraft.class)) {
+				player.table[0][row] = null;
+				return "aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
 			}
 		}
 		String out = "";
-		for(int i=0;i<height;i++) 
-			out = out + attack(player, row , i);
+		for(int i=0;i<width;i++) 
+			out = out + attack(player, i , row);
 		return out;
 	}
 }
