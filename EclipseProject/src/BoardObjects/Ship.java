@@ -59,7 +59,6 @@ public class Ship extends BaseGameObject {
 				return false;
 		return true;
 	}
-	
 	/**
 	 * This method is used in radar
 	 * @param x
@@ -70,26 +69,6 @@ public class Ship extends BaseGameObject {
 		int index = getIndexOfPart(x, y);
 		return parts[index];
 	}
-	/**
-	 * @param player playeri ke rush radar mizane (a ya b)
-	 */
-	public String radar(int x, int y, Player player) {
-		String out = "";
-		if(polarity == 'H') {
-			for(int i=0;i<this.length;i++) {
-				if( Math.abs(this.x+i -x) + Math.abs(this.y-y) <= 1) 
-					out = out + "team " + player.toChar() +" detected " + (x+i)+"," + y +"\n";
-			}
-		}
-		else {
-			for(int i=0;i<this.length;i++) {
-				if( Math.abs(this.x -x) + Math.abs(this.y+i-y) <= 1) 
-					out = out + "team " + player.toChar() +" detected " + (x+i)+"," + y +"\n";
-			}
-		}
-		return out;
-	}
-	
 	/**
 	 *
 	 * @param x coordinates
