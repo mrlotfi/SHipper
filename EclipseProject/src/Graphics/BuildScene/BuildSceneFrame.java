@@ -1,9 +1,15 @@
 package Graphics.BuildScene;
+import javafx.scene.text.Font;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -13,7 +19,8 @@ import game.Player;
 
 import javax.swing.JFrame;
 
-import jdk.nashorn.internal.scripts.JO;
+import BoardObjects.Ship;
+
 
 public class BuildSceneFrame extends JFrame {
 	/**
@@ -29,7 +36,7 @@ public class BuildSceneFrame extends JFrame {
 		        }
 		    }
 		} catch (Exception e) {}
-		BuildSceneFrame a = new BuildSceneFrame(null, 18, 10);
+		BuildSceneFrame a = new BuildSceneFrame(new Player(10,10, 10), 10, 10);
 		a.setVisible(true);
 	}
 	//
@@ -38,6 +45,7 @@ public class BuildSceneFrame extends JFrame {
 	private JButton[] buildButtons;
 	private JButton clearButton;
 	private JButton doneButton;
+	private SidePanel sidePane;
 	public BuildSceneFrame(Player owner, final int width, final int height) {
 		this.owner = owner;
 		this.setBounds(0, 0, 1080, 600);
@@ -48,17 +56,23 @@ public class BuildSceneFrame extends JFrame {
 		this.setLayout(null);
 		this.setFocusable(true);
 		//
+		
+		//
 		panel = new BuildScenePanel(width, height);
 		this.add(panel);
 		panel.repaint();
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				panel.polarityState = 1 - panel.polarityState;
-				panel.changeAfterMouseMove(panel.currentX,panel.currentY);
-				panel.repaint();
+					panel.polarityState = 1 - panel.polarityState;
+					panel.changeAfterMouseMove(panel.currentX,panel.currentY);
+					panel.repaint();
 			}
 		});
+		//
+		sidePane = new SidePanel(panel);
+		getContentPane().add(sidePane);
+		panel.setSidePane(sidePane);
 		//
 		clearButton = new JButton("Clear");
 		clearButton.setBounds(600, 360+80, 200, 50);
@@ -72,6 +86,9 @@ public class BuildSceneFrame extends JFrame {
 					panel = new BuildScenePanel(width, height);
 					BuildSceneFrame.this.add(panel);
 					panel.repaint();
+					sidePane.panel = panel;
+					panel.setSidePane(sidePane);
+					sidePane.repaint();
 				}
 				BuildSceneFrame.this.requestFocus();
 			}
@@ -83,8 +100,26 @@ public class BuildSceneFrame extends JFrame {
 		doneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				BuildSceneFrame.this.requestFocus();
+				//TODO kara
+				if(!panel.allShipsUsed())
+					JOptionPane.showMessageDialog(BuildSceneFrame.this, "You should use all your ships!!! We won't let you out"
+							+ " before that!");
+				else if(!panel.allMinesUsed() || !panel.allAirsUsed()) {
+					int gozine = JOptionPane.showConfirmDialog(BuildSceneFrame.this, "You still have remaining mines or antiaircrafts.Are you sure?", "Ask",2);
+					if(gozine == 0) {
+						//TODO
+						setPlayer();
+						dispose();
+					}
+					else {}//do nothing. return to build page
+				}
+				else {
+					//TODO
+					setPlayer();
+					BuildSceneFrame.this.dispose();
+					BuildSceneFrame.this.requestFocus();
+					dispose();
+				}
 			}
 		});
 		//
@@ -144,6 +179,69 @@ public class BuildSceneFrame extends JFrame {
 				}
 			});
 			getContentPane().add(buildButtons[i]);
+		}
+	}
+	
+	private void setPlayer() {
+		for(int[] a:panel.ships){
+			char polarity = 'V';
+			if(a[3] == 1)
+				polarity = 'H';
+			owner.addShip(new Ship(polarity, a[0], a[1], a[2], owner));
+		}
+		for(int[] a:panel.mines)
+			owner.addMine(a[0], a[1]);
+		for(int[] a:panel.aircrafts)
+			owner.addAntiAircraft(a[0]);
+	}
+}
+
+
+
+
+
+
+
+
+
+class SidePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3251026060327095513L;
+	BuildScenePanel panel;
+	public SidePanel(BuildScenePanel panel) {
+		this.setBounds(830, 10, 200, 540);
+		this.setLayout(null);
+		this.setBackground(Color.white);
+		//
+		this.panel = panel;
+		this.repaint();
+	}
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int row = 0;
+		for(int i=0;i<7;i++) {
+			if(panel.remainingShips[i] == 1) {
+				
+				for(int j=0;j<=3-(i+1)/2;j++) {
+					g.setColor(BuildScenePanel.getColor(i+1));
+					g.fillRect(j*35, row*30+10, 35, 35);
+					g.setColor(Color.black);
+					g.drawRect(j*35, row*30+10, 35, 35);
+				}
+				row+=2;
+			}
+		}
+		for(int i=0;i<panel.remainingMines;i++) {
+			for(int j=0;j<=i;j++)
+				g.fillRect(j*35, row*30+10,30,35);
+		}
+		row+=2;
+		g.setColor(BuildScenePanel.getColor(9));
+		for(int i=0;i<panel.remainingAirs;i++) {
+			for(int j=0;j<=i;j++)
+				g.fillRect(j*35, row*30+10,30,35);
 		}
 	}
 }

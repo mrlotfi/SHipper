@@ -31,19 +31,20 @@ public class BuildScenePanel extends JPanel{
 	int state;
 	int currentX, currentY;
 	private boolean hasConflict;
-	ArrayList<Ship> ships;
+	ArrayList<int[]> ships;
 	ArrayList<int[]> mines;// chon unvar add mine ba x,y bud !
 	ArrayList<int[]> aircrafts;
 	int remainingMines;
 	int remainingAirs;
 	int[] remainingShips;
+	private SidePanel sidePane;
 	public BuildScenePanel(final int width, final int height) {
 		polarityState = 0;
 		hasConflict = false;
 		this.width = width;
 		this.height = height;
 		table = new int[width][height];
-		ships = new ArrayList<Ship>();
+		ships = new ArrayList<int[]>();
 		mines = new ArrayList<int[]>();
 		aircrafts = new ArrayList<int[]>();
 		this.setBounds(10, 10, 540, 540);
@@ -81,12 +82,19 @@ public class BuildScenePanel extends JPanel{
 				for(int x=currentX;x<=currentX+polarityState*(getLength(state)-1);x++) 
 					for(int y=currentY;y<=currentY+(1-polarityState)*(getLength(state)-1);y++)
 						table[x][y] = state;
-				if(state<8)
+				sidePane.repaint();
+				if(state<8) {
+					ships.add(new int[]{currentX,currentY,getLength(state),polarityState});
 					remainingShips[state-1] = 0;
-				else if(state ==8)
+				}
+				else if(state ==8) {
+					mines.add(new int[]{currentX,currentY});
 					remainingMines--;
-				else
+				}
+				else {
+					aircrafts.add(new int[]{currentY});
 					remainingAirs--;
+				}
 				state=0;
 				
 			}
@@ -138,7 +146,25 @@ public class BuildScenePanel extends JPanel{
 	public void changePolarity() {
 		polarityState = 1 - polarityState;
 	}
-	private static Color getColor(int i) {
+	public boolean allShipsUsed() {
+		boolean temp = true;
+		for(int a:remainingShips)
+			if(a != 0) {
+				temp = false;
+				break;
+			}
+		return temp;
+	}
+	public boolean allAirsUsed() {
+		return remainingAirs==0;
+	}
+	public boolean allMinesUsed() {
+		return remainingMines==0;
+	}
+	public void setSidePane(SidePanel side) {
+		this.sidePane = side;
+	}
+	static Color getColor(int i) {
 		switch(i) {
 		case 0:
 			return null;
