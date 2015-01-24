@@ -7,18 +7,34 @@ import BoardObjects.*;
 
 public class Player {
 	private BaseGameObject[][] table;
+	private char[][] knownCells;
 //	private String name;// in vase faaze ba'd :D
 	private ArrayList<Ship> ships;
 	private int index;// 0 ya 1
 	private int width,height;
 	public Player(int width, int height,int index) {
 		this.table = new BaseGameObject[width][height];
+		knownCells = new char[width][height];
+		for(int i=0;i<width;i++)
+			for(int j= 0;j<height;j++)
+				knownCells[i][j] = 'n';
 		this.ships = new ArrayList<Ship>();
 		this.width = width;
 		this.height = height;
 		this.index = index;
 	}
-
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public char getKnownCell(int x, int y) {
+		return knownCells[x][y];
+	}
 	public char toChar() {
 		if(index == 0)
 			return 'a';

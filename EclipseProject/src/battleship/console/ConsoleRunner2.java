@@ -34,7 +34,7 @@ public class ConsoleRunner2
 		}
 		
 		
-		while (controll.gameFinished==false)
+		while (controll.gameFinished()==false)
 		{
 			String s = input.nextLine();
 			// Monazam beshe 

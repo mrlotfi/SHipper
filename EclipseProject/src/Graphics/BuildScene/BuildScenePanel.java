@@ -58,7 +58,6 @@ public class BuildScenePanel extends JPanel{
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				if(state != 0) {
-					// kare ezafi tahmil nakonim behesh! vaqti sefre asan niazi nis be ejraye in :/
 					int i = arg0.getX()/(540/width);
 					int j = arg0.getY()/(540/height);
 					changeAfterMouseMove(i,j);

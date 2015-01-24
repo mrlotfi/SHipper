@@ -22,7 +22,7 @@ public class Game {
 	private int aAcc,bAcc;// iAcc holds the time of run of player i's last operation
 	private ArrayList<int[]> statements;
 	public Player[] players;
-	public boolean gameFinished ;
+	private boolean gameFinished ;
 	public Game(int width, int height) {
 		aAcc = bAcc = currentTime = 0;
 		players = new Player[2];
@@ -31,6 +31,10 @@ public class Game {
 		statements = new ArrayList<int[]>();
 		gameFinished = false ;
 		
+	}
+	
+	public boolean gameFinished() {
+		return gameFinished;
 	}
 	public void addAircraftStatement(int row, int playerIndex,int defenderIndex) {
 		int ted;

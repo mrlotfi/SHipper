@@ -1,8 +1,5 @@
 package Graphics.BuildScene;
-import javafx.scene.text.Font;
-
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -64,7 +61,7 @@ public class BuildSceneFrame extends JFrame {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-					panel.polarityState = 1 - panel.polarityState;
+					panel.changePolarity();
 					panel.changeAfterMouseMove(panel.currentX,panel.currentY);
 					panel.repaint();
 			}
@@ -100,7 +97,6 @@ public class BuildSceneFrame extends JFrame {
 		doneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//TODO kara
 				if(!panel.allShipsUsed())
 					JOptionPane.showMessageDialog(BuildSceneFrame.this, "You should use all your ships!!! We won't let you out"
 							+ " before that!");
@@ -111,7 +107,7 @@ public class BuildSceneFrame extends JFrame {
 						setPlayer();
 						dispose();
 					}
-					else {}//do nothing. return to build page
+					else {}//do nothing. return to build
 				}
 				else {
 					//TODO
@@ -211,7 +207,7 @@ class SidePanel extends JPanel {
 	private static final long serialVersionUID = -3251026060327095513L;
 	BuildScenePanel panel;
 	public SidePanel(BuildScenePanel panel) {
-		this.setBounds(830, 10, 200, 540);
+		this.setBounds(830, 10, 225, 540);
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		//
@@ -230,18 +226,22 @@ class SidePanel extends JPanel {
 					g.setColor(Color.black);
 					g.drawRect(j*35, row*30+10, 35, 35);
 				}
+				g.drawString("Ship length "+((7-i+1)/2+1),150,row*30+30);
 				row+=2;
 			}
 		}
 		for(int i=0;i<panel.remainingMines;i++) {
 			for(int j=0;j<=i;j++)
 				g.fillRect(j*35, row*30+10,30,35);
+			g.drawString("Mines",180,row*30+30);
 		}
-		row+=2;
-		g.setColor(BuildScenePanel.getColor(9));
+		row+=2;	
 		for(int i=0;i<panel.remainingAirs;i++) {
+			g.setColor(BuildScenePanel.getColor(9));
 			for(int j=0;j<=i;j++)
 				g.fillRect(j*35, row*30+10,30,35);
+			g.setColor(Color.black);
+			g.drawString("AntiAircrafts",150,row*30+30);
 		}
 	}
 }
