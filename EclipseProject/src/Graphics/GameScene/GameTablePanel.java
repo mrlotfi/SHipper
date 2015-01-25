@@ -53,7 +53,9 @@ public class GameTablePanel extends JPanel {
 		case 'a':
 		return Color.blue;
 		case 'd':
-			return Color.red;
+		return Color.red;
+		case 'p':
+		return Color.green;//push
 		}
 		return null;
 	}

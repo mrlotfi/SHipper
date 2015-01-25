@@ -33,10 +33,15 @@ public class Game {
 		
 	}
 	
+	public int getCurrentTime() {
+		return currentTime;
+	}
 	public boolean gameFinished() {
 		return gameFinished;
 	}
 	public void addAircraftStatement(int row, int playerIndex,int defenderIndex) {
+		if(players[playerIndex].getRemainingAirAttacks() == 0)
+			return;
 		int ted;
 		if(playerIndex == 0) {
 			if(currentTime <= aAcc) {
@@ -63,6 +68,7 @@ public class Game {
 		statements.add(new int[] {1,ted+2,playerIndex,defenderIndex, row, -1});
 	}
 	public void addAttackStatement(int x, int y, int attackerIndex,int defenderIndex) {
+		
 		int ted;	
 		if(attackerIndex == 0)  {
 			if(currentTime <= aAcc) {
@@ -89,6 +95,8 @@ public class Game {
 		statements.add(new int[] {2,ted+1,attackerIndex,defenderIndex,x,y});
 	}
 	public void addRadarStatement(int x, int y, int subjectIndex,int objectIndex) {
+		if(players[subjectIndex].getRemaingRadars() == 0)
+			return;
 		int ted;
 		if(subjectIndex == 0) {
 			if(currentTime <= aAcc) {

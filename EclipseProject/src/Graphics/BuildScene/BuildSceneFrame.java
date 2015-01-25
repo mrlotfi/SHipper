@@ -25,14 +25,7 @@ public class BuildSceneFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -1630011047229464942L;
 	public static void main(String args[]) {
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (Exception e) {}
+		
 		BuildSceneFrame a = new BuildSceneFrame(new Player(10,10, 10), 10, 10);
 		a.setVisible(true);
 	}

@@ -60,6 +60,10 @@ public class BuildScenePanel extends JPanel{
 				if(state != 0) {
 					int i = arg0.getX()/(540/width);
 					int j = arg0.getY()/(540/height);
+					if(i>=width)
+						i = width - 1;
+					if(j>= height)
+						j = height - 1;
 					changeAfterMouseMove(i,j);
 				}
 			}

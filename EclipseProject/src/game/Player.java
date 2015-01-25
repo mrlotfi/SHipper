@@ -8,11 +8,15 @@ import BoardObjects.*;
 public class Player {
 	private BaseGameObject[][] table;
 	private char[][] knownCells;
-//	private String name;// in vase faaze ba'd :D
+	private String name;// in vase faaze ba'd :D
 	private ArrayList<Ship> ships;
+	private int aircrafts;
+	private int radars ;
 	private int index;// 0 ya 1
 	private int width,height;
 	public Player(int width, int height,int index) {
+		aircrafts = 2;
+		radars = 5;
 		this.table = new BaseGameObject[width][height];
 		knownCells = new char[width][height];
 		for(int i=0;i<width;i++)
@@ -24,6 +28,22 @@ public class Player {
 		this.index = index;
 	}
 	
+	public int getRemainingAirAttacks() {
+		return aircrafts;
+	}
+	
+	public int getRemaingRadars() {
+		return radars;
+	}
+	
+    public String getName() {
+    	return name;
+    }
+	
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
 	public int getHeight() {
 		return height;
 	}
@@ -67,6 +87,7 @@ public class Player {
 	 * @return Ye reshte ke har khune kashtie salem ke doresh hast ro ba x,y (har kodum to ye khat) neshun mide
 	 */
 	public String radar(Player player, int x, int y) {
+		radars--;
 		String returnVal = "";
 		int downX,downY;
 		downX = x-1;downY = y-1; // age sefr budan az array nazane birun
@@ -74,14 +95,21 @@ public class Player {
 			downX = x;
 		if(y==0)
 			downY = y;
-		for(int i=downX;i<=x+1;i++) {
-			for(int j=downY;j<=y+1;j++) {
+		int UpX=x+1,UpY=y+1;
+		if(y+1>= height)
+			UpY = height-1;
+		if(x+1>= width)
+			UpX = width-1;
+		for(int i=downX;i<=UpX;i++) {
+			for(int j=downY;j<=UpY;j++) {
 				if(player.getBoard()[i][j] == null) 
 					continue;
 				if(player.getBoard()[i][j].getClass().equals(Ship.class)) {
 					Ship s =(Ship) player.getBoard()[i][j];
-					if(s.isPartNonDamaged(i, j)) 
-						returnVal = returnVal + "team "+toChar()+" detected "+(i+1)+","+(j+1)+"\n";
+					if(s.isPartNonDamaged(i, j)) {
+						returnVal = returnVal + getName()+" detected "+(i+1)+","+(j+1)+"\n";
+						player.knownCells[i][j] ='s';
+					}
 				}
 			}
 		}
@@ -98,23 +126,31 @@ public class Player {
 	public String attack(Player player, int x, int y) {
 		BaseGameObject o  = player.table[x][y];
 		if(o == null) {
+			player.knownCells[x][y] = 'p';
 			return "";
+			
 		}
 		if(o.getClass().equals(Ship.class)) {
 			Ship a = (Ship) o;
-			if (a.damagePart(x, y))
-				return "team "+toChar()+" explode "+ (x+1) + "," + (y+1) +"\n";
+			if (a.damagePart(x, y)) {
+				player.knownCells[x][y] = 'd';
+				return getName()+" explode "+ (x+1) + "," + (y+1) +"\n";
+			}
 			return "";
 		}
 		if(o.getClass().equals(Mine.class)) {
 			Mine m = (Mine) o;
-			String out = m.explode(x, y, this);
+	//		String out = m.explode(x, y, this);
+			// khatte bala tu faze 2 niaz nist
+			String out = player.attack(this, x, y);
 			player.table[x][y] = null;// dg mini vojud nadare
+			player.knownCells[x][y] = 'm';
 			return out;
 		}
 		if(o.getClass().equals(AntiAircraft.class)) {
 			player.table[x][y] = null;
-			return "team " + player.toChar()  +" anti aircraft row " +  (x+1) + " exploded"+ "\n" ;
+			player.knownCells[x][y] = 'a';
+			return  player.getName()  +" anti aircraft row " +  (x+1) + " exploded"+ "\n" ;
 		}
 		return "";
 	} 
@@ -126,10 +162,12 @@ public class Player {
 	 * @return age anti aircraft nakhord ye reshte mide ke har charesh shabihe khorujie attacke ma'mulie
 	 */ 
 	public String aircraftAttack(Player player, int row) {
+		aircrafts--;
 		if(player.table[0][row] != null) {
 			if(player.table[0][row].getClass().equals(AntiAircraft.class)) {
 				player.table[0][row] = null;
-				return "aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
+				player.knownCells[0][row] = 'a';
+				return getName()+" aircraft unsuccessful\n"; // manteqish ine team ro ham chap kone :/
 			}
 		}
 		String out = "";
