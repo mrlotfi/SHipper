@@ -42,7 +42,7 @@ public class SingleMachineController extends Game{
 				if(gameFinished()) {
 					JOptionPane.showMessageDialog(null, SingleMachineController.this.checkWinner().getName()+" wins!");
 					scene.dispose();
-					
+					interrupt();
 				}
 				}
 			}

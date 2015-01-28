@@ -1,11 +1,12 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import BoardObjects.*;
 
 
-public class Player {
+public class Player implements Serializable{
 	private BaseGameObject[][] table;
 	private char[][] knownCells;
 	private String name;// in vase faaze ba'd :D

@@ -1,6 +1,7 @@
 package game;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import BoardObjects.Ship;
@@ -17,7 +18,7 @@ import BoardObjects.Ship;
  * @author M-L-N
  *
  */
-public class Game {
+public class Game implements Serializable{
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
 	private int aAcc,bAcc;// iAcc holds the time of run of player i's last operation
 	private ArrayList<int[]> statements;

@@ -3,12 +3,17 @@ package Network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.server.SocketSecurityException;
 
 import javax.swing.JOptionPane;
+
+import Controllers.NetworkController;
 
 
 
@@ -17,6 +22,9 @@ public class NetworkTransmitter {
 		NetworkTransmitter t1 = new NetworkTransmitter(true);
 	}
 	
+	private ServerSocket ss;
+	Thread listener;
+	private NetworkController c;
 	private boolean isHost;
 	int myPort;
 	int hisPort;
@@ -42,7 +50,49 @@ public class NetworkTransmitter {
 		}
 	}
 	
-	public void waitForConnection() {
+	public void setNetworkController(NetworkController c) {
+		this.c = c;
+	}
+	
+	public boolean sendObject(Object o) {
+		Socket s;
+		try {
+			s = new Socket(opAddress, hisPort);
+			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+			out.writeObject(o);
+			out.close();
+			s.close();
+			return true;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public Object recieveObject() throws ClassNotFoundException {
+		ServerSocket ss;
+		try {
+			ss = new ServerSocket(myPort);
+			Socket s = ss.accept();
+			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+			Object o  =  in.readObject();
+			in.close();
+			s.close();
+			ss.close();
+			return o;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean waitForConnection() {
 		try {
 			ServerSocket tempSS = new ServerSocket(myPort);
 			Socket tempS = tempSS.accept();
@@ -51,10 +101,12 @@ public class NetworkTransmitter {
 			inputStream.close();
 			tempS.close();
 			tempSS.close();
+			return true;
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -83,16 +135,14 @@ public class NetworkTransmitter {
 		try {
 			Socket d = new Socket(opAddress,hisPort);
 			DataOutputStream outputStream = new DataOutputStream(d.getOutputStream());
-			outputStream.writeUTF(myPort+" says "+text);
+			outputStream.writeUTF(text);
 			outputStream.close();
 			d.close();
 			return true;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
@@ -103,10 +153,14 @@ public class NetworkTransmitter {
 		opAddress = s;
 	}
 	
+	
+	/** after calling this method you shouldn't call send or receive object
+	 * 
+	 */
 	public void startListening() {
-		Thread t = new Thread() {
+		listener = new Thread() {
 			public void run() {
-				ServerSocket ss;
+				
 				while(true) {
 					try {
 						ss = new ServerSocket(myPort);
@@ -116,7 +170,7 @@ public class NetworkTransmitter {
 						input.close();
 						s.close();
 						ss.close();
-						JOptionPane.showMessageDialog(null, recentRecievedString);
+						c.parseInput(recentRecievedString);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -125,6 +179,16 @@ public class NetworkTransmitter {
 				}
 			}
 		};
-		t.start();
+		listener.start();
+	}
+	
+	public void stop() {
+		try {
+			listener.stop();
+			ss.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
