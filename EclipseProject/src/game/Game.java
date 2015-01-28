@@ -79,7 +79,7 @@ public class Game implements Serializable{
 			else {
 				aAcc = currentTime;
 				ted = aAcc;
-				aAcc++;
+				aAcc+=2;
 			}
 		}
 		else {
@@ -90,7 +90,7 @@ public class Game implements Serializable{
 			else {
 				bAcc = currentTime;
 				ted = bAcc;
-				bAcc++;
+				bAcc+=2;
 			}
 		}
 		statements.add(new int[] {2,ted+1,attackerIndex,defenderIndex,x,y});
