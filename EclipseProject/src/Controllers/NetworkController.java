@@ -1,15 +1,22 @@
 package Controllers;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
 import Graphics.GameScene.ChatFrame;
+import Graphics.GameScene.Main;
 import Graphics.GameScene.NetworkedScene;
 import Network.NetworkTransmitter;
 import game.Game;
 
+
 public class NetworkController extends Game {
+	static URL url2 = Main.class.getResource("Win.wav");
+	final static AudioClip clip =  Applet.newAudioClip(url2);
 	private NetworkedScene scene;
 	private transient NetworkTransmitter trs;
 	private transient ChatFrame chatFrame;
@@ -34,6 +41,7 @@ public class NetworkController extends Game {
 		chatFrame.setVisible(true);
 	}
 	
+	
 	public void start() {
 		Thread t = new Thread()  {
 			public void run() {
@@ -49,6 +57,7 @@ public class NetworkController extends Game {
 				scene.setTime(getCurrentTime());
 				scene.repaintAll();
 				if(gameFinished()) {
+					clip.play();
 					JOptionPane.showMessageDialog(null,checkWinner().getName()+" wins!");
 					scene.dispose();
 					this.stop();

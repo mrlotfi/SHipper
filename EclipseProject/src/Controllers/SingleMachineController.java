@@ -1,13 +1,19 @@
 package Controllers;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
+import Graphics.GameScene.Main;
 import Graphics.GameScene.SingleMachinceScene;
 import game.Game;
 
 public class SingleMachineController extends Game{
+	static URL url2 = Main.class.getResource("Win.wav");
+	final static AudioClip clip =  Applet.newAudioClip(url2);
 	public static void main(String args[]) {
 		SingleMachineController c = new SingleMachineController(10, 10);
 		c.players[0].setName("hdh");
@@ -40,9 +46,10 @@ public class SingleMachineController extends Game{
 				scene.setTime(getCurrentTime());
 				scene.repaintAll();
 				if(gameFinished()) {
+					clip.play();
 					JOptionPane.showMessageDialog(null, SingleMachineController.this.checkWinner().getName()+" wins!");
 					scene.dispose();
-					interrupt();
+					
 				}
 				}
 			}

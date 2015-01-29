@@ -2,8 +2,6 @@ package Graphics.BuildScene;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,11 +22,6 @@ public class BuildSceneFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -1630011047229464942L;
-	public static void main(String args[]) {
-		
-		BuildSceneFrame a = new BuildSceneFrame(new Player(10,10, 10), 10, 10);
-		a.setVisible(true);
-	}
 	//
 	Player owner;
 	private BuildScenePanel panel;
@@ -219,7 +212,7 @@ class SidePanel extends JPanel {
 					g.setColor(Color.black);
 					g.drawRect(j*35, row*30+10, 35, 35);
 				}
-				g.drawString("Ship length "+((7-i+1)/2+1),150,row*30+30);
+				g.drawString("Ship length "+((7-i+1)/2),150,row*30+30);
 				row+=2;
 			}
 		}

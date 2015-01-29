@@ -18,6 +18,7 @@ import BoardObjects.Ship;
  * @author M-L-N
  *
  */
+@SuppressWarnings("serial")
 public class Game implements Serializable{
 	private int currentTime;// In dasturaye go hamash sahihe dg :/
 	private int aAcc,bAcc;// iAcc holds the time of run of player i's last operation
@@ -79,7 +80,7 @@ public class Game implements Serializable{
 			else {
 				aAcc = currentTime;
 				ted = aAcc;
-				aAcc+=2;
+				aAcc++;
 			}
 		}
 		else {
@@ -90,7 +91,7 @@ public class Game implements Serializable{
 			else {
 				bAcc = currentTime;
 				ted = bAcc;
-				bAcc+=2;
+				bAcc++;
 			}
 		}
 		statements.add(new int[] {2,ted+1,attackerIndex,defenderIndex,x,y});

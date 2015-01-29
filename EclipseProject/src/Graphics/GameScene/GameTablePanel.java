@@ -19,7 +19,6 @@ public class GameTablePanel extends JPanel {
 	public GameTablePanel(Player player) {
 		this.player = player;
 		activeX = activeY = 0;
-		
 	}
 	
 	public int getActiveX() {
@@ -61,10 +60,12 @@ public class GameTablePanel extends JPanel {
 		for(int i=0;i<player.getWidth();i++)
 			for(int j=0;j<player.getHeight();j++) {
 				g.setColor(getColor(player.getKnownCell(i, j)));
-				g.fillRect(i*(SIZE/player.getWidth()), j*(SIZE/player.getHeight()), SIZE/player.getWidth(), SIZE/player.getHeight());
-				g.setColor(Color.black);
-				g.drawRect(i*(SIZE/player.getWidth()), j*(SIZE/player.getHeight()), SIZE/player.getWidth(), SIZE/player.getHeight());
+				g.fillRect(i*(SIZE/player.getWidth()), j*(SIZE/player.getHeight()), 
+						SIZE/player.getWidth(), SIZE/player.getHeight());
 				
+				g.setColor(Color.black);
+				g.drawRect(i*(SIZE/player.getWidth()), j*(SIZE/player.getHeight()),
+						SIZE/player.getWidth(), SIZE/player.getHeight());
 			}
 
 		g.setColor(Color.red);

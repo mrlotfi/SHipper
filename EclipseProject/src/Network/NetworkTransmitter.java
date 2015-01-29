@@ -9,7 +9,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.rmi.server.SocketSecurityException;
+
+
+
 
 import javax.swing.JOptionPane;
 
@@ -18,36 +20,25 @@ import Controllers.NetworkController;
 
 
 public class NetworkTransmitter {
-	public static void main(String args[]) {
-		NetworkTransmitter t1 = new NetworkTransmitter(true);
-	}
-	
 	private ServerSocket ss;
 	Thread listener;
 	private NetworkController c;
-	private boolean isHost;
-	int myPort;
-	int hisPort;
+	private int myPort;
+	private int hisPort;
 	private String myAddress;
 	private String opAddress;
 	private String recentRecievedString;
 	public NetworkTransmitter(boolean isHost) {
-		this.isHost = isHost;
+		myPort = 66;
+		hisPort = 666;
 		if(isHost) {
 			myPort = 666;
 			hisPort = 66;
 		}
-		else {
-			myPort = 66;
-			hisPort = 666;
-		}
-			
 		try {
 			myAddress = InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (UnknownHostException e) {JOptionPane.showMessageDialog(null,
+				"Turn off your firewall and try again");}
 	}
 	
 	public void setNetworkController(NetworkController c) {
@@ -64,12 +55,8 @@ public class NetworkTransmitter {
 			s.close();
 			return true;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -86,8 +73,7 @@ public class NetworkTransmitter {
 			ss.close();
 			return o;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Network problem. sorry. try later.");
 			return null;
 		}
 	}
@@ -102,10 +88,9 @@ public class NetworkTransmitter {
 			tempS.close();
 			tempSS.close();
 			return true;
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Check your network access and firewall. "
+					+ "Or maybe someone is trying to connect to this game unwantedly. Or maybe you are alreaady hosting a game");
 			return false;
 		}
 	}
@@ -121,12 +106,8 @@ public class NetworkTransmitter {
 			s.close();
 			return true;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -140,10 +121,8 @@ public class NetworkTransmitter {
 			d.close();
 			return true;
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return false;
 		}
 		
@@ -153,14 +132,12 @@ public class NetworkTransmitter {
 		opAddress = s;
 	}
 	
-	
-	/** after calling this method you shouldn't call send or receive object
+	/** after calling this method you won't call send or receive object or we will get exception
 	 * 
 	 */
 	public void startListening() {
 		listener = new Thread() {
 			public void run() {
-				
 				while(true) {
 					try {
 						ss = new ServerSocket(myPort);
@@ -182,6 +159,7 @@ public class NetworkTransmitter {
 		listener.start();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void stop() {
 		try {
 			listener.stop();

@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import BoardObjects.*;
 /**
  * 
  * @author M-L-N

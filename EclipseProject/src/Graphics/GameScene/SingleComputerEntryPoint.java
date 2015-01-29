@@ -2,7 +2,6 @@ package Graphics.GameScene;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,61 +13,56 @@ import javax.swing.JTextField;
 import Controllers.SingleMachineController;
 import Graphics.BuildScene.BuildSceneFrame;
 
-/**
- * this code is generated with plugin
- */
-
+@SuppressWarnings("serial")
 public class SingleComputerEntryPoint extends JFrame {
 	private boolean firstCompleted = false ,secondCompleted = false;
 	private JButton btnDone = null;
 	private SingleMachineController controller;
-	int rows,cols;
-	public static void main(String args[]) {
-		
-	}
-	
+	private int rows,cols;
+	private JSpinner spinner,spinner_1;
+	private JTextField textField, textField_1;
 	public SingleComputerEntryPoint() {
 		setTitle("Build a new game");
-		
-		
-		
 		setBounds(100, 100, 293, 300);
 		getContentPane().setLayout(null);
 		
-		JLabel lblNumOfRows = new JLabel("rows");
-		lblNumOfRows.setBounds(44, 8, 29, 14);
-		getContentPane().add(lblNumOfRows);
+		initializeConstantElements();
 		
-		final JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setBounds(81, 5, 52, 24);
 		getContentPane().add(spinner);
-		
-		JLabel lblNewLabel = new JLabel("cols");
-		lblNewLabel.setBounds(143, 8, 39, 14);
-		getContentPane().add(lblNewLabel);
-		
-		final JSpinner spinner_1 = new JSpinner();
+		spinner_1 = new JSpinner();
 		spinner_1.setBounds(180, 5, 52, 24);
 		getContentPane().add(spinner_1);
 		
-		JLabel lblPlayerName = new JLabel("Player 1 name:");
-		lblPlayerName.setBounds(44, 33, 94, 14);
-		getContentPane().add(lblPlayerName);
-		
-		final JTextField textField = new JTextField();
+		JTextField textField = new JTextField();
 		textField.setBounds(44, 58, 188, 28);
 		getContentPane().add(textField);
 		textField.setColumns(10);
-		
-		JLabel lblPlayerName_1 = new JLabel("Player 2 name:");
-		lblPlayerName_1.setBounds(44, 89, 94, 14);
-		getContentPane().add(lblPlayerName_1);
-		
-		final JTextField textField_1 = new JTextField();
+		JTextField textField_1 = new JTextField();
 		textField_1.setBounds(44, 114, 188, 28);
 		getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
+		initializeDynamicElements();
+	}
+	
+	private void initializeConstantElements() {
+		JLabel lblNumOfRows = new JLabel("rows");
+		lblNumOfRows.setBounds(44, 8, 29, 14);
+		getContentPane().add(lblNumOfRows);
+		JLabel lblNewLabel = new JLabel("cols");
+		lblNewLabel.setBounds(143, 8, 39, 14);
+		getContentPane().add(lblNewLabel);
+		JLabel lblPlayerName = new JLabel("Player 1 name:");
+		lblPlayerName.setBounds(44, 33, 94, 14);
+		getContentPane().add(lblPlayerName);
+		JLabel lblPlayerName_1 = new JLabel("Player 2 name:");
+		lblPlayerName_1.setBounds(44, 89, 94, 14);
+		getContentPane().add(lblPlayerName_1);
+	}
+	
+	private void initializeDynamicElements() {
 		final JButton btnPlayerBuild = new JButton("Player 1 build map");
 		btnPlayerBuild.setBounds(44, 145, 188, 23);
 		btnPlayerBuild.addMouseListener(new MouseAdapter() {			
@@ -145,6 +139,5 @@ public class SingleComputerEntryPoint extends JFrame {
 			}
 		});
 		getContentPane().add(btnDone);
-		
 	}
 }

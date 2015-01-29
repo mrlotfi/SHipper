@@ -2,44 +2,30 @@ package Graphics.GameScene;
 
 import game.Player;
 
-import java.awt.JobAttributes;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.text.DefaultCaret;
 
-import sun.nio.ch.Net;
 import Controllers.NetworkController;
-import Controllers.SingleMachineController;
 import Network.NetworkTransmitter;
 
 @SuppressWarnings("serial")
-public class NetworkedScene extends JFrame {
-
-	
-	
+public class NetworkedScene extends BaseGameScene{
 	private NetworkTransmitter trs;
 	private GameTablePanel panelEnemy;
 	private RevealedGameTablePanel myPanel;
 	private NetworkController controller;
 	private int owner;
-	private JTextArea log;
-	private JLabel time;
 	public NetworkedScene(final NetworkController controller, int owner,NetworkTransmitter trs) {
 		this.trs  =  trs;
-		
-		setSize(1400,700);
-		setLayout(null);
 		this.controller = controller;
 		this.owner = owner;
 		
@@ -49,11 +35,24 @@ public class NetworkedScene extends JFrame {
 				JOptionPane.showMessageDialog(null, "go to hell");
 				NetworkedScene.this.trs.sendString("e");
 				NetworkedScene.this.trs.stop();
-				
 			}
-			
 		});
 		
+		initializeEnemyPanel();
+		initializeMyPanel();
+		
+		initializeOthers();
+		
+		repaint();
+	}
+	
+	private void initializeMyPanel() {
+		myPanel = new RevealedGameTablePanel(controller.players[owner]);
+		myPanel.setBounds(20+RevealedGameTablePanel.SIZE+60,20,RevealedGameTablePanel.SIZE, RevealedGameTablePanel.SIZE);
+		getContentPane().add(myPanel);
+	}
+	
+	private void initializeEnemyPanel() {
 		final Player player = controller.players[1-owner];
 		panelEnemy = new GameTablePanel(player);
 		panelEnemy.setBounds(20, 20, GameTablePanel.SIZE, GameTablePanel.SIZE);
@@ -63,7 +62,7 @@ public class NetworkedScene extends JFrame {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				int x = arg0.getX() / (GameTablePanel.SIZE/player.getWidth());
-				int y= arg0.getY() / (GameTablePanel.SIZE/player.getHeight());
+				int y = arg0.getY() / (GameTablePanel.SIZE/player.getHeight());
 				panelEnemy.setActiveCell(x, y);
 				repaintAll();
 			}
@@ -106,25 +105,13 @@ public class NetworkedScene extends JFrame {
 						System.exit(1);
 					}
 					break;
-					
 				}
-				
 			}
 		});
 		getContentPane().add(panelEnemy);
-		
-		
-		myPanel = new RevealedGameTablePanel(controller.players[owner]);
-		myPanel.setBounds(20+RevealedGameTablePanel.SIZE+60,20,RevealedGameTablePanel.SIZE, RevealedGameTablePanel.SIZE);
-		getContentPane().add(myPanel);
-		
-		
-		JLabel messageLogLabel = new JLabel("Message Log");
-		messageLogLabel.setFont(messageLogLabel.getFont().deriveFont(14f));
-		messageLogLabel.setBounds(20 + 2*GameTablePanel.SIZE+80, 15, 134, 30);
-		
-		getContentPane().add(messageLogLabel);
-		
+	}
+	
+	private void initializeOthers() {
 		JLabel playerOneName = new JLabel(controller.players[1-owner].getName()+" 's MAP");
 		playerOneName.setFont(playerOneName.getFont().deriveFont(14f));
 		playerOneName.setBounds(20,20+GameTablePanel.SIZE +5,134,30);
@@ -135,49 +122,13 @@ public class NetworkedScene extends JFrame {
 		playerTwoName.setBounds(20 + GameTablePanel.SIZE+60,20+GameTablePanel.SIZE +5,134,30);
 		add(playerTwoName);
 		
-		String guide = "Guide: \nGrey: Unknown     Black: Exploded mine    Yellow: Revealed ship \ns"
-				+ "Red: Exploded ship     Blue:Exploded antiaircraft     Green: Reavealed empty cell";
-		JTextArea guideLabel = new JTextArea(guide,10,10);
-		guideLabel.setBounds(20,20+GameTablePanel.SIZE +40 , 600,80);
-		guideLabel.setFocusable(false);
-		add(guideLabel);
-		
-		time = new JLabel("Time: 00:00");
-		time.setBounds(700, 550, 200, 80);
-		time.setFont(time.getFont().deriveFont(28f));
-		getContentPane().add(time);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20+2*GameTablePanel.SIZE+80,50,200,450);
-		getContentPane().add(scrollPane);
-		
-		log = new JTextArea();
-		log.setEditable(false);
-		log.setFocusable(false);
-		DefaultCaret caret = (DefaultCaret)log.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		scrollPane.setViewportView(log);
 		
 		JButton chatBtn = new JButton("Chat");
 		chatBtn.setBounds(20+2*GameTablePanel.SIZE+80, 20+GameTablePanel.SIZE+60,200,60);
 		chatBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				controller.showChatFrame();
-			}
+			public void mouseClicked(MouseEvent arg0) {controller.showChatFrame();}
 		});
 		add(chatBtn);
-		
-		repaint();
-	}
-	
-	public void appendText(String text) {
-		log.append(text);
-	}
-	
-	public void setTime(int t) {
-		int sec = t % 60;
-		int min = t/60;
-		time.setText("Time: "+String.format("%02d",min)+":"+String.format("%02d",sec));
 	}
 	
 	public void repaintAll() {

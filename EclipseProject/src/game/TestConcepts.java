@@ -1,6 +1,5 @@
 package game;
 
-import BoardObjects.Mine;
 import BoardObjects.Ship;
 
 /**

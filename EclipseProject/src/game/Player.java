@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import BoardObjects.*;
 
 
+@SuppressWarnings("serial")
 public class Player implements Serializable{
 	private BaseGameObject[][] table;
 	private char[][] knownCells;
@@ -140,7 +141,7 @@ public class Player implements Serializable{
 			return "";
 		}
 		if(o.getClass().equals(Mine.class)) {
-			Mine m = (Mine) o;
+			//Mine m = (Mine) o;
 	//		String out = m.explode(x, y, this);
 			// khatte bala tu faze 2 niaz nist
 			String out = player.attack(this, x, y);
